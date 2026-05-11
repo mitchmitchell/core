@@ -218,6 +218,25 @@ class Elke27DataUpdateCoordinator(DataUpdateCoordinator[PanelSnapshot]):
             raise UpdateFailed(_REFRESH_FAILED) from err
         return _command_succeeded("Area disarm", result)
 
+    async def async_set_light(
+        self, light_id: int, *, on: bool, level: int | None = None
+    ) -> bool:
+        """Request a light state change."""
+        params: dict[str, Any] = {"light_id": light_id, "status": "ON" if on else "OFF"}
+        if level is not None:
+            params["level"] = level
+        try:
+            result = await self._require_client().async_execute(
+                "light_set_status", **params
+            )
+        except (
+            Elke27ConnectionError,
+            Elke27TimeoutError,
+            Elke27DisconnectedError,
+        ) as err:
+            raise UpdateFailed(_REFRESH_FAILED) from err
+        return _command_succeeded("Light control", result)
+
     def _require_client(self) -> Elke27Client:
         """Return the active client or raise a consistent HA error."""
         if self._client is None:
