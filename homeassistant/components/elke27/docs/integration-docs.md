@@ -12,6 +12,7 @@ exposes alarm areas for the core alarm-engine use case.
 ## Supported features
 
 - Alarm control panel entities for each area (arm away, arm home, arm night, disarm).
+- Switch entities for configured outputs.
 
 ## Requirements
 

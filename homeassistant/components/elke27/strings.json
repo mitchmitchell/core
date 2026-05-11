@@ -98,6 +98,11 @@
       "area": {
         "name": "Area"
       }
+    },
+    "switch": {
+      "output": {
+        "name": "Output"
+      }
     }
   }
 }

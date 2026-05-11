@@ -54,6 +54,7 @@ SERVICE_ALARM_ARM_AUTOMATIC_SCHEMA = cv.make_entity_service_schema(
 
 PLATFORMS: list[Platform] = [
     Platform.ALARM_CONTROL_PANEL,
+    Platform.SWITCH,
 ]
 
 
