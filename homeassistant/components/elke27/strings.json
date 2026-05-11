@@ -98,6 +98,11 @@
       "area": {
         "name": "Area"
       }
+    },
+    "lock": {
+      "lock": {
+        "name": "Lock"
+      }
     }
   }
 }
