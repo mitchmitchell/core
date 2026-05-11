@@ -98,6 +98,14 @@
       "area": {
         "name": "Area"
       }
+    },
+    "sensor": {
+      "panel_name": {
+        "name": "Panel Name"
+      },
+      "panel_ready": {
+        "name": "Panel State"
+      }
     }
   }
 }
