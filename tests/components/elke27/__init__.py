@@ -1,6 +1,13 @@
 """Tests for the Elke27 integration."""
 
-from elke27_lib import AreaState, PanelInfo, PanelSnapshot, TableInfo, ZoneState
+from elke27_lib import (
+    AreaState,
+    PanelInfo,
+    PanelSnapshot,
+    TableInfo,
+    ZoneDefinition,
+    ZoneState,
+)
 from elke27_lib.events import (
     UNSET_AT,
     UNSET_CLASSIFICATION,
@@ -31,6 +38,7 @@ def build_snapshot(
     *,
     areas: dict[int, AreaState] | None = None,
     zones: dict[int, ZoneState] | None = None,
+    zone_definitions: dict[int, ZoneDefinition] | None = None,
     panel: PanelInfo | None = None,
     version: int = 1,
 ) -> PanelSnapshot:
@@ -41,7 +49,7 @@ def build_snapshot(
         table_info=TableInfo(),
         areas=areas or {},
         zones=zones or {},
-        zone_definitions={},
+        zone_definitions=zone_definitions or {},
         outputs={},
         output_definitions={},
         lights={},
