@@ -98,6 +98,11 @@
       "area": {
         "name": "Area"
       }
+    },
+    "binary_sensor": {
+      "zone": {
+        "name": "Zone"
+      }
     }
   }
 }
