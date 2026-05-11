@@ -10,6 +10,7 @@ from .models import Elke27ConfigEntry, Elke27RuntimeData
 
 PLATFORMS: list[Platform] = [
     Platform.ALARM_CONTROL_PANEL,
+    Platform.SENSOR,
 ]
 
 

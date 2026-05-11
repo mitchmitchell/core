@@ -25,5 +25,19 @@
         "title": "Set up Elk E27 Alarm Engine"
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "panel_name": {
+        "name": "Panel name"
+      },
+      "panel_ready": {
+        "name": "Panel state",
+        "state": {
+          "connected": "Connected",
+          "disconnected": "Disconnected"
+        }
+      }
+    }
   }
 }
