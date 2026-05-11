@@ -98,6 +98,11 @@
       "area": {
         "name": "Area"
       }
+    },
+    "climate": {
+      "thermostat": {
+        "name": "Thermostat"
+      }
     }
   }
 }
