@@ -218,6 +218,22 @@ class Elke27DataUpdateCoordinator(DataUpdateCoordinator[PanelSnapshot]):
             raise UpdateFailed(_REFRESH_FAILED) from err
         return _command_succeeded("Area disarm", result)
 
+    async def async_set_lock(self, lock_id: int, *, locked: bool) -> bool:
+        """Request a lock state change."""
+        try:
+            result = await self._require_client().async_execute(
+                "lock_set_status",
+                lock_id=lock_id,
+                status="ON" if locked else "OFF",
+            )
+        except (
+            Elke27ConnectionError,
+            Elke27TimeoutError,
+            Elke27DisconnectedError,
+        ) as err:
+            raise UpdateFailed(_REFRESH_FAILED) from err
+        return _command_succeeded("Lock control", result)
+
     def _require_client(self) -> Elke27Client:
         """Return the active client or raise a consistent HA error."""
         if self._client is None:
