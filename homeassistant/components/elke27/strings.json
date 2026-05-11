@@ -98,6 +98,11 @@
       "area": {
         "name": "Area"
       }
+    },
+    "light": {
+      "light": {
+        "name": "Light"
+      }
     }
   }
 }
