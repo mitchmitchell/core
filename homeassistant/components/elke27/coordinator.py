@@ -218,6 +218,42 @@ class Elke27DataUpdateCoordinator(DataUpdateCoordinator[PanelSnapshot]):
             raise UpdateFailed(_REFRESH_FAILED) from err
         return _command_succeeded("Area disarm", result)
 
+    async def async_set_tstat_status(
+        self,
+        tstat_id: int,
+        *,
+        mode: str | None = None,
+        fan_mode: str | None = None,
+        cool_setpoint: float | None = None,
+        heat_setpoint: float | None = None,
+    ) -> bool:
+        """Request a thermostat status change.
+
+        Setpoints are in degrees Fahrenheit; the library encodes them for the
+        panel, so they must not be encoded here.
+        """
+        params: dict[str, Any] = {
+            key: value
+            for key, value in (
+                ("mode", mode),
+                ("fan_mode", fan_mode),
+                ("cool_setpoint", cool_setpoint),
+                ("heat_setpoint", heat_setpoint),
+            )
+            if value is not None
+        }
+        try:
+            result = await self._require_client().async_execute(
+                "tstat_set_status", tstat_id=tstat_id, **params
+            )
+        except (
+            Elke27ConnectionError,
+            Elke27TimeoutError,
+            Elke27DisconnectedError,
+        ) as err:
+            raise UpdateFailed(_REFRESH_FAILED) from err
+        return _command_succeeded("Thermostat control", result)
+
     def _require_client(self) -> Elke27Client:
         """Return the active client or raise a consistent HA error."""
         if self._client is None:

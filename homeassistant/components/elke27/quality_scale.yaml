@@ -65,7 +65,7 @@ rules:
     comment: The initial alarm control panel platform does not expose config or diagnostic entities.
   entity-device-class:
     status: exempt
-    comment: The alarm control panel entity platform does not define device classes.
+    comment: The alarm control panel and climate platforms do not define device classes.
   entity-disabled-by-default: todo
   entity-translations: done
   exception-translations: todo
