@@ -44,8 +44,6 @@ _FAN_TO_TSTAT_MODE: dict[str, str] = {
 _TSTAT_TO_FAN_MODE: dict[str, str] = {
     value: key for key, value in _FAN_TO_TSTAT_MODE.items()
 }
-# Some panels report temperatures with one implied decimal place.
-_IMPLIED_DECIMAL_TEMP_THRESHOLD = 200
 
 
 async def async_setup_entry(
@@ -145,7 +143,7 @@ class Elke27Thermostat(CoordinatorEntity[Elke27DataUpdateCoordinator], ClimateEn
         """Return the current temperature."""
         if (tstat := self.tstat) is None:
             return None
-        return _normalize_temperature(tstat.temperature)
+        return tstat.temperature
 
     @property
     @override
@@ -153,7 +151,7 @@ class Elke27Thermostat(CoordinatorEntity[Elke27DataUpdateCoordinator], ClimateEn
         """Return the heat setpoint."""
         if (tstat := self.tstat) is None:
             return None
-        return _normalize_temperature(tstat.heat_setpoint)
+        return tstat.heat_setpoint
 
     @property
     @override
@@ -161,7 +159,7 @@ class Elke27Thermostat(CoordinatorEntity[Elke27DataUpdateCoordinator], ClimateEn
         """Return the cool setpoint."""
         if (tstat := self.tstat) is None:
             return None
-        return _normalize_temperature(tstat.cool_setpoint)
+        return tstat.cool_setpoint
 
     @property
     @override
@@ -189,7 +187,7 @@ class Elke27Thermostat(CoordinatorEntity[Elke27DataUpdateCoordinator], ClimateEn
         if heat_setpoint is None and cool_setpoint is None:
             msg = "A target temperature range is required."
             raise ServiceValidationError(msg)
-        # The library encodes Fahrenheit setpoints to protocol tenths.
+        # The library sends whole degrees as the E27 API expects.
         await self._async_set_status(
             heat_setpoint=heat_setpoint, cool_setpoint=cool_setpoint
         )
@@ -212,12 +210,3 @@ class Elke27Thermostat(CoordinatorEntity[Elke27DataUpdateCoordinator], ClimateEn
         ):
             msg = f"Thermostat {self._tstat_id} command was not acknowledged."
             raise HomeAssistantError(msg)
-
-
-def _normalize_temperature(value: float | None) -> float | None:
-    """Normalize a panel temperature to degrees Fahrenheit."""
-    if value is None:
-        return None
-    if abs(value) >= _IMPLIED_DECIMAL_TEMP_THRESHOLD:
-        return value / 10
-    return float(value)

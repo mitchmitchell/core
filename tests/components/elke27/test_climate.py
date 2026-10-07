@@ -54,9 +54,9 @@ def mock_thermostats(hass: HomeAssistant, mock_client: MagicMock) -> None:
             1: ThermostatState(
                 tstat_id=1,
                 name="Hallway",
-                temperature=715,
+                temperature=71.5,
                 heat_setpoint=68,
-                cool_setpoint=760,
+                cool_setpoint=76,
                 mode="heat",
                 fan_mode="AUTO",
             )
@@ -69,14 +69,14 @@ async def test_thermostat_entities(
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
-    """Test thermostat entities are created and temperatures normalized."""
+    """Test thermostat entities are created with panel temperatures."""
     await setup_integration(hass, mock_config_entry)
 
     state = hass.states.get(ENTITY_ID)
     assert state is not None
     assert state.state == HVACMode.HEAT
     assert state.attributes[ATTR_HVAC_ACTION] == HVACAction.HEATING
-    # 715 is reported with an implied decimal and shown at whole-degree precision.
+    # Fractional readings are shown at whole-degree precision.
     assert state.attributes[ATTR_CURRENT_TEMPERATURE] == 72
     assert state.attributes[ATTR_TARGET_TEMP_LOW] == 68
     assert state.attributes[ATTR_TARGET_TEMP_HIGH] == 76
