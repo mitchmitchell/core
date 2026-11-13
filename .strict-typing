@@ -205,6 +205,7 @@ homeassistant.components.eheimdigital.*
 homeassistant.components.electrasmart.*
 homeassistant.components.electric_kiwi.*
 homeassistant.components.elgato.*
+homeassistant.components.elke27.*
 homeassistant.components.elkm1.*
 homeassistant.components.emulated_hue.*
 homeassistant.components.energenie_power_sockets.*
